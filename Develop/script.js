@@ -94,35 +94,66 @@ var lowercase = [
 var number = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
 
 
+function getPasswordOptions() {
+  // User provides desired length between 8-128.
+  var length = prompt("Select a password length between 8-128 characters.");
 
-// Assignment Code
-var generateBtn = document.querySelector("#generate");
+  // Check user entry is a number
 
-// Write password to the #password input
-function writePassword() {
-  var password = generatePassword();
-  var passwordText = document.querySelector("#password");
+  // Check password is atleast 8 characters long.
+  if (length < 8) {
+    alert("Password must be more 8 characters long.")
+    return;
+  };
 
-  passwordText.value = password;
+  // Check password is no more than 128 characters long.
+  if (length > 128) {
+    alert("Password must be no more than 128 characters long.")
+    return;
+  };
 
-}
 
-// Add event listener to generate button
-generateBtn.addEventListener("click", writePassword);
+  // Variables store boolean for each password criteria
+  var hasSpecialCharacters = confirm("Would you like to include special characters?");
+  var hasNumbers = confirm("Would you like to include numbers?");
+  var hasUpperCasedCharacters = confirm("Would you like to include uppercase letters?")
+  var hasLowerCasedCharacters = confirm("Would you like to include lowercase letters?")
+
+  // Return error if no criteria are selected 
+  if (
+    (hasSpecialCharacters === false) &&
+    (hasNumbers === false) &&
+    (hasUpperCasedCharacters === false) &&
+    (hasLowerCasedCharacters === false)) {
+    alert("Please select criteria in order to generate a password.")
+    return;
+  };
+
+
+
+  // Assignment Code
+  var generateBtn = document.querySelector("#generate");
+
+  // Write password to the #password input
+  function writePassword() {
+    var password = generatePassword();
+    var passwordText = document.querySelector("#password");
+
+    passwordText.value = password;
+
+  }
+
+  // Add event listener to generate button
+  generateBtn.addEventListener("click", writePassword);
 
 
 // WHEN I click the button to generate a password
 // THEN I am presented with a series of prompts for password criteria
 // WHEN prompted for password criteria
 // THEN I select which criteria to include in the password
-window.confirm("Password criteria:\n Include special characters?")
-window.confirm("Password criteria:\n Include numbers?")
-window.confirm("Password criteria:\n Include uppercase letters?")
-window.confirm("Password criteria:\n Include lowercase letters?")
 
 // WHEN prompted for the length of the password
 // THEN I choose a length of at least 8 characters and no more than 128 characters
-passwordLength = window.prompt("Select a password length between 8-128 characters.")
 
 
 
