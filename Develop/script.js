@@ -59,8 +59,6 @@ var uppercase = [
   "Y",
   "Z",
 ]
-
-
 // Array of lowercase letters for password
 var lowercase = [
   "a",
@@ -96,22 +94,24 @@ var number = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
 
 function getPasswordOptions() {
   // User provides desired length between 8-128.
-  var length = prompt("Select a password length between 8-128 characters.");
+  var passwordLength = prompt("Select a password length between 8-128 characters.");
 
   // Check user entry is a number
-
+  if (isNaN(passwordLength)) {
+    alert("Password length must be a number.")
+    return;
+  }
   // Check password is atleast 8 characters long.
-  if (length < 8) {
+  if (passwordLength < 8) {
     alert("Password must be more 8 characters long.")
     return;
   };
 
   // Check password is no more than 128 characters long.
-  if (length > 128) {
+  if (passwordLength > 128) {
     alert("Password must be no more than 128 characters long.")
     return;
   };
-
 
   // Variables store boolean for each password criteria
   var hasSpecialCharacters = confirm("Would you like to include special characters?");
@@ -128,37 +128,31 @@ function getPasswordOptions() {
     alert("Please select criteria in order to generate a password.")
     return;
   };
+};
 
+getPasswordOptions()
 
+// Assignment Code
+var generateBtn = document.querySelector("#generate");
 
-  // Assignment Code
-  var generateBtn = document.querySelector("#generate");
+// Write password to the #password input
+function writePassword() {
+  var password = generatePassword();
+  var passwordText = document.querySelector("#password");
 
-  // Write password to the #password input
-  function writePassword() {
-    var password = generatePassword();
-    var passwordText = document.querySelector("#password");
+  passwordText.value = password;
+}
 
-    passwordText.value = password;
-
-  }
-
-  // Add event listener to generate button
-  generateBtn.addEventListener("click", writePassword);
+// Add event listener to generate button
+generateBtn.addEventListener("click", writePassword);
 
 
 // WHEN I click the button to generate a password
 // THEN I am presented with a series of prompts for password criteria
 // WHEN prompted for password criteria
 // THEN I select which criteria to include in the password
-
 // WHEN prompted for the length of the password
 // THEN I choose a length of at least 8 characters and no more than 128 characters
-
-
-
-
-
 // AS AN employee with access to sensitive data
 // I WANT to randomly generate a password that meets certain criteria
 // SO THAT I can create a strong password that provides greater security
