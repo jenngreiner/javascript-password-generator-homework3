@@ -91,11 +91,11 @@ var lowercase = [
 // Array of numbers for password
 var number = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
 
+var passwordSelection;
 
 function getPasswordOptions() {
   // User provides desired length between 8-128.
   var passwordLength = prompt("Select a password length between 8-128 characters.");
-
   // Check user entry is a number
   if (isNaN(passwordLength)) {
     alert("Password length must be a number.")
@@ -106,13 +106,11 @@ function getPasswordOptions() {
     alert("Password must be more 8 characters long.")
     return;
   };
-
   // Check password is no more than 128 characters long.
   if (passwordLength > 128) {
     alert("Password must be no more than 128 characters long.")
     return;
   };
-
   // Variables store boolean for each password criteria
   var hasSpecialCharacters = confirm("Would you like to include special characters?");
   var hasNumbers = confirm("Would you like to include numbers?");
@@ -128,9 +126,67 @@ function getPasswordOptions() {
     alert("Please select criteria in order to generate a password.")
     return;
   };
-};
 
+  // Push length to passwordSelection
+  // If user selects an option, push option to passwordSelection
+  passwordSelection = {
+    passwordLength: parseInt(passwordLength),
+    hasSpecialCharacters: hasSpecialCharacters,
+    hasNumbers: hasNumbers,
+    hasUpperCasedCharacters: hasUpperCasedCharacters,
+    hasLowerCasedCharacters: hasLowerCasedCharacters,
+  }
+  return passwordSelection;
+};
 getPasswordOptions()
+
+var finalPassword = "";
+// Create generatePassword function
+function generatePassword() {
+  function randomCharacter(sourceArray) {
+    // Get random items from array (code below from different activity); pseudo random
+    var index = Math.floor(Math.random() * sourceArray.length);
+    // console.log("Source: " + sourceArray[index]);
+    return sourceArray[index];
+  }
+  // console.log(passwordSelection.passwordLength);
+  for (var i = 0; i < passwordSelection.passwordLength; i++) {
+    if (passwordSelection.hasSpecialCharacters) {
+      finalPassword += randomCharacter(specialCharacter)
+      // console.log(finalPassword + " length = " + finalPassword.length);
+      if (finalPassword.length === passwordSelection.passwordLength) {
+        return finalPassword;
+      } else {
+        if (passwordSelection.hasNumbers) {
+          finalPassword += randomCharacter(number)
+          // console.log(finalPassword + " length = " + finalPassword.length);
+          if (finalPassword.length === passwordSelection.passwordLength) {
+            return finalPassword;
+          } else {
+            if (passwordSelection.hasUpperCasedCharacters) {
+              finalPassword += randomCharacter(uppercase)
+              // console.log(finalPassword + " length = " + finalPassword.length);
+              if (finalPassword.length === passwordSelection.passwordLength) {
+                return finalPassword;
+              } else {
+                if (passwordSelection.hasLowerCasedCharacters) {
+                  finalPassword += randomCharacter(lowercase)
+                  // console.log(finalPassword + " length = " + finalPassword.length);
+                  if (finalPassword.length === passwordSelection.passwordLength) {
+                    return finalPassword;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  // console.log(finalPassword)
+}
+
+// evaluate password length and pick randomly from the arrays above based on which selections are true
 
 // Assignment Code
 var generateBtn = document.querySelector("#generate");
